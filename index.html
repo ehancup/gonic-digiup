@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Example</title>
+</head>
+
+<body>
+    <h1>Form Input</h1>
+    <form id="dataForm">
+        <label for="nama">Nama:</label>
+        <input type="text" id="nama" name="nama" required>
+        <br><br>
+
+        <label for="gol_darah">Golongan Darah:</label>
+        <select id="gol_darah" name="gol_darah" required>
+            <option value="a">A</option>
+            <option value="b">B</option>
+            <option value="ab">AB</option>
+            <option value="o">O</option>
+        </select>
+        <br><br>
+
+        <label for="makanan_kesukaan">Makanan Kesukaan:</label>
+        <textarea id="makanan_kesukaan" name="makanan_kesukaan" rows="4" cols="30" required></textarea>
+        <br><br>
+
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="m" required>
+        <label for="male">Male</label>
+        <input type="radio" id="female" name="gender" value="f" required>
+        <label for="female">Female</label>
+        <br><br>
+
+        <button type="button" id="submitButton">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('submitButton').addEventListener('click', async () => {
+            const nama = document.getElementById('nama').value;
+            const gol_darah = document.getElementById('gol_darah').value;
+            const makanan_kesukaan = document.getElementById('makanan_kesukaan').value;
+            const gender = document.querySelector('input[name="gender"]:checked').value;
+
+            const payload = {
+                nama,
+                gol_darah,
+                makanan_kesukaan,
+                gender
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/v1/form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    alert('Form dikirim successfully!');
+                } else {
+                    alert('Failed to submit form.');
+                }
+            } catch (error) {
+                alert('Error occurred: ' + error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>
